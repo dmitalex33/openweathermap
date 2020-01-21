@@ -1,0 +1,373 @@
+#: kivy 1.11.1
+#: import s_city_name settings.s_city_name
+#: import rain_pict graphics.rain_pict
+#: import temp_pict graphics.temp_pict
+#: import wind_pict graphics.wind_pict
+#: import sett graphics.sett
+#: import sett_ graphics.sett_
+#: import summer graphics.summer
+
+#: import morning graphics.morning
+#: import day graphics.day
+#: import evening graphics.evening
+#: import night graphics.night
+#: import screen_img graphics.screen_img
+
+
+
+
+
+<Runner>:
+    #Handling the gesture event.
+    on_right_to_left_line: manager.current = manager.next() if manager.next() != 'settingsscreen' else 'main'; manager.transition.direction = 'left'
+    on_left_to_right_line: manager.current = manager.previous() if manager.previous() != 'settingsscreen' else 'third'; manager.transition.direction = 'right'
+    on_bottom_to_top_line:
+        manager.get_screen('main').press_renew()
+    ScreenManager:
+        id: manager
+        MyLayout:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    source: screen_img()
+            name: 'main'
+            id: main
+        Forecast:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    source: screen_img()
+            id: zero
+            name: 'zero'
+        Forecast:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    source: screen_img()
+            id: first
+            name: 'first'
+        Forecast:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    source: screen_img()
+            id: second
+            name: 'second'
+        Forecast:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    source: screen_img()
+            id: third
+            name: 'third'
+        SettingsScreen:
+            name: 'settingsscreen'
+
+<MyLayout>:
+    BoxLayout:
+        spacing: 20
+        orientation:"vertical"
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            color: 0, 1, 1, 1
+            size_hint:  1, .14
+            text: 'Now'
+            font_size: '20sp'
+            id: number
+        Label:
+            size_hint:  1, .2
+            text:s_city_name
+            font_size: '20sp'
+            id: l_city
+
+        GridLayout:
+            cols:3
+            size_hint: 1, .4
+            Image:
+                id : rain_img
+                source: rain_pict()
+                allow_stretch: 'true'
+            Image:
+                id : temp_img
+                allow_stretch: 'true'
+                source: temp_pict()
+            Image:
+                id : wind_img
+                allow_stretch: 'true'
+                source: wind_pict()
+            Label:
+                id:weather
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                halign: 'center'
+                valign: 'middle'
+            Label:
+                id:temp
+                font_size: '16sp'
+            Label:
+                id:wind
+                font_size: '16sp'
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            size_hint:  1, .005
+        GridLayout:
+            cols: 4
+            size_hint: 1, .3
+            padding: 20
+            spacing: 20
+            Label:
+                text: 'Давление:'
+                font_size: '16sp'
+                valign: 'middle'
+                halign: 'right'
+            Label:
+                text:''
+                id: pressure
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'right'
+            Label:
+                text:'мм рт. ст.'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'left'
+            Image:
+                source: './widget/images/pressure.png'
+            Label:
+                text: 'Влажность:'
+                font_size: '16sp'
+                valign: 'middle'
+                halign: 'right'
+            Label:
+                text:''
+                id: humidity
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'right'
+            Label:
+                text:'%'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'left'
+            Image:
+                source: './widget/images/humidity.png'
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            size_hint:  1, .005
+        Image:
+            size_hint: 1, .14
+            source:'./widget/timeofday/day_night.png'
+        GridLayout:
+            cols: 2
+            size_hint: 1, .1
+            Label:
+                text:''
+                id: sunrise
+            Label:
+                text:''
+                id: sunset
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            size_hint:  1, .005
+        GridLayout:
+            cols:3
+            size_hint: 1, .05
+            Image:
+                source: './widget/arrow_up.png'
+            Label:
+                text: 'Swipe Up to renew'
+            Image:
+                source: './widget/arrow_up.png'
+        GridLayout:
+            cols:3
+            size_hint: 1, .13
+            Label:
+                text: 'Обновлено:'
+            Label:
+                id: update_time
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'center'
+            Button:
+                text: 'Settings'
+                #background_normal: sett
+                #background_down: sett
+                background_color: .2, .5, 1, .2
+                color: 0, 1, 1, 1
+                #pos_hint: {'center_x':.8, 'center_y':.5}
+                on_release:
+                    root.manager.current = 'settingsscreen'
+                    root.manager.transition.direction = 'left'
+
+<Forecast>:
+    BoxLayout:
+        spacing: 20
+        orientation:"vertical"
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            color: 0, 1, 1, 1
+            size_hint:  1, .3
+            font_size: '20sp'
+            id: day
+        Label:
+            size_hint:  1, .3
+            text:s_city_name
+            font_size: '20sp'
+            id: l_city
+        GridLayout:
+            cols: 1
+            size_hint:  1, .15
+            BackgroundLabel:
+                text: "Утро"
+                background_color: .7, .7, .7, .4
+        GridLayout:
+            cols: 3
+            Image:
+                id : rain_img
+                allow_stretch: 'true'
+            Image:
+                id : temp_img
+                allow_stretch: 'true'
+            Image:
+                id : wind_img
+                allow_stretch: 'true'
+            Label:
+                id:weather
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'center'
+            Label:
+                id:temp
+                font_size: '16sp'
+            Label:
+                id:wind
+                font_size: '16sp'
+        GridLayout:
+            cols: 1
+            size_hint:  1, .15
+            BackgroundLabel:
+                text: "День"
+                background_color: .7, .7, .7, .4
+        GridLayout:
+            cols: 3
+            Image:
+                id : rain_img_d
+                allow_stretch: 'true'
+            Image:
+                id : temp_img_d
+                allow_stretch: 'true'
+            Image:
+                id : wind_img_d
+                allow_stretch: 'true'
+            Label:
+                id:weather_d
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'center'
+            Label:
+                id:temp_d
+                font_size: '16sp'
+            Label:
+                id:wind_d
+                font_size: '16sp'
+        GridLayout:
+            cols: 1
+            size_hint:  1, .15
+            BackgroundLabel:
+                text: "Вечер"
+                background_color: .7, .7, .7, .4
+        GridLayout:
+            cols: 3
+            Image:
+                id : rain_img_e
+                allow_stretch: 'true'
+            Image:
+                id : temp_img_e
+                allow_stretch: 'true'
+            Image:
+                id : wind_img_e
+                allow_stretch: 'true'
+            Label:
+                id:weather_e
+                font_size: '16sp'
+                text_size: self.width, None
+                size: self.texture_size
+                valign: 'middle'
+                halign: 'center'
+            Label:
+                id:temp_e
+                font_size: '16sp'
+            Label:
+                id:wind_e
+                font_size: '16sp'
+
+<SettingsScreen>:
+    canvas.before:
+        Rectangle:
+            #pos: self.pos
+            size: self.size
+            source: screen_img()
+    BoxLayout:
+        orientation:"vertical"
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            text:s_city_name
+            id: l_city
+            size_hint:  1, .1
+        GridLayout:
+            #padding: 20
+            #spacing: 20
+            cols: 2
+            #row_force_default: True
+            #row_default_height: 40
+            size_hint:  1, .06
+
+            TextInput:
+                text: ''
+                id:city
+
+            Button:
+                text: "APPLY"
+                background_color: .2, .5, 1, .2
+                color: 0, 1, 1, 1
+                on_release:
+                    root.change_city(city.text)
+                    l_city.text =  city.text
+            CheckBox:
+                background_checkbox_disabled_down: 'True'
+        Widget:
+            size_hint:  1, .74
+        Button:
+            text: "OK"
+            background_color: .2, .5, 1, .2
+            color: 0, 1, 1, 1
+            size_hint: 1, .1
+            on_release:
+                root.manager.current = 'main'
+                root.manager.transition.direction = 'right'
+
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
+    # Default the background color for this label
+    # to r 0, g 0, b 0, a 0
+# Use the BackgroundLabel any where in your kv code like below
