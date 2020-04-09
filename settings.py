@@ -37,3 +37,10 @@ def init():
         lines = file.readlines()
         index = lines.index("[renew_time]\n") + 1
         renew_time = lines[index]
+
+    global language
+
+    with open("config.txt", "r") as file:
+        lines = file.readlines()
+        index = lines.index("[language]\n") + 1
+        language = lines[index]

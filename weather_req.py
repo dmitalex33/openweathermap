@@ -5,6 +5,7 @@ import datetime
 from datetime import timedelta
 import settings
 import json
+import threading
 
 appid = '8448f8c04f64c01bd0ad50c135bd90ba'
 
@@ -40,7 +41,7 @@ def get_wind_direction(deg):
 def get_city_id(s_city_name):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/find",
-                     params={'q': s_city_name, 'type': 'like', 'units': 'metric', 'lang': 'ru', 'APPID': appid}, verify=False, timeout=3)
+                     params={'q': s_city_name, 'type': 'like', 'units': 'metric', 'lang': 'ru', 'APPID': appid}, verify=False, timeout=5)
         data = res.json()
         cities = ["{} ({})".format(d['name'], d['sys']['country'])
                   for d in data['list']]
@@ -53,31 +54,40 @@ def get_city_id(s_city_name):
     assert isinstance(city_id, int)
     return city_id
 
+global request
+
+request = {'weather': 0, 'forecast': 0}
+
 # Запрос текущей погоды
 def request_current_weather(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/weather",
-                     params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid},verify=False, timeout=3)
+                     params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid},verify=False, timeout=5)
         data = res.json()
-        print (data)
-        return json.dumps(data)
+        #return json.dumps(data)
+        request['weather'] = json.dumps(data)
+        print('выполнение везер')
     except Exception as e:
         print("Exception (weather):", e)
         error_popup('No Internet')
-        return '0000'
+        #return '0000'
+        request['weather'] = '0000'
 
 
 # Прогноз
 def request_forecast(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
-                           params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid}, verify=False, timeout=3)
+                           params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid}, verify=False, timeout=5)
         data = res.json()
-        return json.dumps(data)
+        #return json.dumps(data)
+        request['forecast'] = json.dumps(data)
+        print ('выполнение форкаст')
     except Exception as e:
         print("Exception (forecast):", e)
         error_popup('No Internet')
-        return '0000'
+        #return '0000'
+        request['forecast'] = '0000'
 
 
 def parcing_current_weather(data):
@@ -145,7 +155,8 @@ def parcing (conditions, temp, wind):
 
     if conditions == 'ясно' or conditions == 'облачно с прояснениями':
         settings.condition = 0
-    if conditions == 'пасмурно' or conditions == 'переменная облачность' or conditions == 'облачно' or conditions == 'небольшая облачность':
+    if conditions == 'пасмурно' or conditions == 'переменная облачность' or conditions == 'облачно' or conditions == 'небольшая облачность'\
+            or conditions == 'туман' or conditions == 'плотный туман':
         settings.condition = 1
         settings.factor = settings.factor - 1
     if conditions == 'дождь' or conditions == 'легкий дождь' :

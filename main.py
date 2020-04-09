@@ -17,8 +17,9 @@ import datetime
 import time
 from datetime import timedelta
 import threading
+from weather_req import request
 from kivy.clock import Clock
-#from kivy.properties import StringProperty
+
 
 
 settings.init()
@@ -97,6 +98,7 @@ class SettingsScreen(Screen):
     def __init__(self, **kwargs):
         super(SettingsScreen, self).__init__(**kwargs)
 
+
     def change_city(self,new_city):
         resp = get_city_id(new_city)
         if resp == '0000':
@@ -117,6 +119,17 @@ class SettingsScreen(Screen):
             second.l_city.text = new_city
             third.l_city.text = new_city
             MyLayout.press_renew(self)
+
+
+class CustomDropDown(DropDown):
+
+    def change_lang(self, lang):
+        app = App.get_running_app()
+        app.root.ids.settingsscreen.ids.lang.text = '{}'.format(lang)
+        language = lang
+        conf_write('language', language)
+
+
 
 def conf_write(index, data):
     with open("config.txt", "r") as file:
@@ -255,6 +268,10 @@ class BikeWeatherApp(App):
         app = App.get_running_app()
         app.root.ids.main.ids.update_time.text = renew_time_format()
         #app.root.ids.main.ids.update_time.text += '1'
+
+
+
+
 
 
 if __name__ == '__main__':
