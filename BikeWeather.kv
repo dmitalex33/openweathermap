@@ -7,6 +7,9 @@
 #: import sett graphics.sett
 #: import sett_ graphics.sett_
 #: import summer graphics.summer
+#: import dic dic.dict
+#: import ind settings.ind
+
 
 #: import morning graphics.morning
 #: import day graphics.day
@@ -120,7 +123,7 @@
             padding: 20
             spacing: 20
             Label:
-                text: 'Давление:'
+                text: dic['pressure'][ind]
                 font_size: '16sp'
                 valign: 'middle'
                 halign: 'right'
@@ -133,7 +136,7 @@
                 valign: 'middle'
                 halign: 'right'
             Label:
-                text:'мм рт. ст.'
+                text:dic['pres_q'][ind]
                 text_size: self.width, None
                 size: self.texture_size
                 valign: 'middle'
@@ -141,7 +144,7 @@
             Image:
                 source: './widget/images/pressure.png'
             Label:
-                text: 'Влажность:'
+                text: dic['humidity'][ind]
                 font_size: '16sp'
                 valign: 'middle'
                 halign: 'right'
@@ -185,14 +188,14 @@
             Image:
                 source: './widget/arrow_up.png'
             Label:
-                text: 'Swipe Up to renew'
+                text: dic['swipe'][ind]
             Image:
                 source: './widget/arrow_up.png'
         GridLayout:
             cols:3
             size_hint: 1, .13
             Label:
-                text: 'Обновлено:'
+                text: dic['renew'][ind]
             Label:
                 id: update_time
                 text_size: self.width, None
@@ -200,7 +203,7 @@
                 valign: 'middle'
                 halign: 'center'
             Button:
-                text: 'Settings'
+                text: dic['settings'][ind]
                 #background_normal: sett
                 #background_down: sett
                 background_color: .2, .5, 1, .2
@@ -229,7 +232,7 @@
             cols: 1
             size_hint:  1, .15
             BackgroundLabel:
-                text: "Утро"
+                text: dic['morning'][ind]
                 background_color: .7, .7, .7, .4
         GridLayout:
             cols: 3
@@ -259,7 +262,7 @@
             cols: 1
             size_hint:  1, .15
             BackgroundLabel:
-                text: "День"
+                text: dic['day'][ind]
                 background_color: .7, .7, .7, .4
         GridLayout:
             cols: 3
@@ -289,7 +292,7 @@
             cols: 1
             size_hint:  1, .15
             BackgroundLabel:
-                text: "Вечер"
+                text: dic['evening'][ind]
                 background_color: .7, .7, .7, .4
         GridLayout:
             cols: 3

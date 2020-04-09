@@ -19,10 +19,11 @@ from datetime import timedelta
 import threading
 from weather_req import request
 from kivy.clock import Clock
+from dic import dict
 
 
 
-settings.init()
+#settings.init()
 
 import graphics
 
@@ -126,7 +127,8 @@ class CustomDropDown(DropDown):
     def change_lang(self, lang):
         app = App.get_running_app()
         app.root.ids.settingsscreen.ids.lang.text = '{}'.format(lang)
-        language = lang
+        language = str(lang)
+        print("lang =", lang)
         conf_write('language', language)
 
 
@@ -174,6 +176,7 @@ def show_all():
     days = [zero, first, second, third]
     times = ['09:00', '18:00']
     now = datetime.datetime.now()
+    app.root.ids.settingsscreen.ids.lang.text = settings.language
 
     for day in days:
         settings.factor = 0
@@ -235,23 +238,23 @@ def renew_time_format():
     difference = (now-updated)/3600
 
     if difference <= 0.05:
-        return 'только что'
+        return dict['just'][settings.ind]
     elif difference <= 2:
-        return 'менее часа'
+        return dict['less than an hour'][settings.ind]
     elif difference <= 2:
-        return 'два часа назад'
+        return ''+ dict['hours ago'][settings.ind]
     elif difference <= 3:
-        return 'три часа назад'
+        return '3'+ dict['hours ago'][settings.ind]
     elif difference <= 4:
-        return '4 часа назад'
+        return '4'+ dict['hours ago'][settings.ind]
     elif difference <= 6:
-        return '6 часов назад'
+        return '6'+ dict['hours ago'][settings.ind]
     elif difference <= 10:
-        return '10 часов назад'
+        return '10'+ dict['hours ago'][settings.ind]
     elif difference <= 24:
-        return 'вчера'
+        return dict['yesterday'][settings.ind]
     else:
-        return 'давно'
+        return dict['long ago'][settings.ind]
 
 
 buildKV = Builder.load_file("BikeWeather.kv")

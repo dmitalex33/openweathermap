@@ -43,4 +43,13 @@ def init():
     with open("config.txt", "r") as file:
         lines = file.readlines()
         index = lines.index("[language]\n") + 1
-        language = lines[index]
+        language = lines[index][:-1]
+
+    global ind
+
+    if language == 'Russian':
+        ind = 1
+    elif language == 'English':
+        ind = 0
+    else:
+        ind = 0
