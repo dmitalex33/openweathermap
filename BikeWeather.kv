@@ -333,7 +333,7 @@
             id: l_city
             size_hint:  1, .1
         GridLayout:
-            #padding: 20
+            #padding: 40
             #spacing: 20
             cols: 2
             #row_force_default: True
@@ -351,10 +351,16 @@
                 on_release:
                     root.change_city(city.text)
                     l_city.text =  city.text
+        BackgroundLabel:
+            background_color: .7, .7, .7, .4
+            text:'Language'
+            size_hint:  1, .1
         Button:
             id: lang
             text: 'Language'
-            on_release: Factory.CustomDropDown().open(self)
+            on_release: Factory.CustomDropDown().open(self); lang.text = 'Select'
+            background_color: .2, .5, 1, .2
+            color: 0, 1, 1, 1
             size_hint_y: None
             height: '48dp'
         Widget:
@@ -379,6 +385,8 @@
         text: 'English'
         size_hint_y: None
         height: '48dp'
+        background_color: .2, .5, 1, .2
+        color: 0, 1, 1, 1
         on_release:
             dropdown.select(btn1.text)
 
@@ -387,6 +395,8 @@
         text: 'Russian'
         size_hint_y: None
         height: '48dp'
+        background_color: .2, .5, 1, .2
+        color: 0, 1, 1, 1
         on_release:
             dropdown.select(btn2.text)
 

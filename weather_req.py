@@ -5,7 +5,6 @@ import datetime
 from datetime import timedelta
 import settings
 import json
-import threading
 from dic import dict
 settings.init()
 
@@ -118,7 +117,7 @@ def parcing_current_weather(data):
     humidity = data['main']['humidity']
     sunset = data['sys']['sunset']
     sunrise = data['sys']['sunrise']
-    if data['wind']['speed']>1:
+    if data['wind']['speed']>1 and 'deg' in data['wind']:
         wind_direction = get_wind_direction(data['wind']['deg'])
     else:
         wind_direction = 'None'
@@ -173,16 +172,17 @@ def parcing (conditions, temp, wind):
         settings.condition = 0
     if conditions == 'пасмурно' or conditions == 'переменная облачность' or conditions == 'облачно' or conditions == 'небольшая облачность'\
             or conditions == 'туман' or conditions == 'плотный туман' or conditions == 'few clouds' or conditions == 'broken clouds'\
-            or conditions == 'scattered clouds' or conditions == 'overcast clouds':
+            or conditions == 'scattered clouds' or conditions == 'overcast clouds' or conditions == 'smoke':
         settings.condition = 1
         settings.factor = settings.factor - 1
     if conditions == 'дождь' or conditions == 'легкий дождь' or conditions == 'light rain' or conditions == 'rain':
         settings.condition = 2
         settings.factor = settings.factor - 2
-    if conditions == 'небольшой дождь' or conditions == 'небольшой проливной дождь' or conditions == 'heavy rain':
+    if conditions == 'небольшой дождь' or conditions == 'небольшой проливной дождь' or conditions == 'heavy rain'\
+            or conditions == 'moderate rain' or conditions == 'гроза':
         settings.condition = 3
         settings.factor = settings.factor - 2
-    if conditions == 'снег' or conditions == 'snow':
+    if conditions == 'снег' or conditions == 'snow' or conditions == 'light snow' or conditions == 'небольшой снег':
         settings.condition = 5
         settings.factor = settings.factor - 2
 
