@@ -108,6 +108,7 @@ class SettingsScreen(Screen):
             settings.s_city_name = new_city
             conf_write('city', new_city)
             settings.city_id = resp
+            conf_write('city_id', str(resp))
             app = App.get_running_app()
             main = app.root.ids.main.ids
             zero = app.root.ids.zero.ids

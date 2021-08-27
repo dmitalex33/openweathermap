@@ -1,5 +1,5 @@
 #from main import conf_read
-
+import re
 
 def init():
     global factor
@@ -21,7 +21,7 @@ def init():
     with open("config.txt", "r") as file:
         lines = file.readlines()
         index = lines.index("[city]\n") + 1
-        s_city_name = lines[index]
+        s_city_name = lines[index].capitalize()
 
     global city_id
     #city_id = conf_read(city_id)[:6]
@@ -29,7 +29,7 @@ def init():
     with open("config.txt", "r") as file:
         lines = file.readlines()
         index = lines.index("[city_id]\n") + 1
-        city_id = lines[index][:6]
+        city_id = re.findall(r'\d+', lines[index]) 
 
     global renew_time
 

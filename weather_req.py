@@ -71,7 +71,7 @@ def get_city_id(s_city_name):
 
 global request
 
-request = {'weather': 0, 'forecast': 0}
+request = {'weather': '0000', 'forecast': '0000'}
 
 # Запрос текущей погоды
 def request_current_weather(city_id):
@@ -106,7 +106,6 @@ def request_forecast(city_id):
 
 
 def parcing_current_weather(data):
-
     data = json.loads(data)
     wind = '{0:2.0f}'.format(data['wind']['speed'])
     temp = data['main']['temp']

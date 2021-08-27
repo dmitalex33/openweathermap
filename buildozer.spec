@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas,txt,gif
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 1.3
+version = 1.4
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,7 +36,7 @@ version = 1.3
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = kivy, requests, python3
+requirements = requests==2.2, hostpython3==3.7.8,python3==3.7.8,kivy==1.11.1 
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -75,7 +75,7 @@ osx.kivy_version = 1.11.1
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 # (string) Presplash background color (for new android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:
@@ -88,7 +88,7 @@ fullscreen = 0
 android.permissions = INTERNET
 
 # (int) Target Android API, should be as high as possible.
-android.api = 28
+android.api = 29
 
 # (int) Minimum API your APK will support.
 android.minapi = 21
@@ -97,7 +97,7 @@ android.minapi = 21
 #android.sdk = 20
 
 # (str) Android NDK version to use
-#android.ndk = 17c
+android.ndk = 19c
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 #android.ndk_api = 21
@@ -259,7 +259,7 @@ ios.ios_deploy_branch = 1.7.0
 log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_on_root = 1
+warn_on_root = 0
 
 # (str) Path to build artifact storage, absolute or relative to spec file
 # build_dir = ./.buildozer
