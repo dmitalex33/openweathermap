@@ -22,7 +22,6 @@ from kivy.clock import Clock
 from dic import dict
 
 
-
 #settings.init()
 
 import graphics
@@ -75,7 +74,7 @@ class MyLayout(Screen):
             conf_write('weather', weather)
             conf_write('forecast', forecast)
             now = datetime.datetime.now()
-            time = now.strftime("%d.%m.%y %A %T")
+            time = now.strftime("%d.%m.%y %H:%M:%S")
             conf_write('renew_time', time)
             show_all()
 
@@ -187,7 +186,10 @@ def show_all():
         day.rain_img.source = graphics.rain_pict()
         day.temp_img.source = graphics.temp_pict()
         day.wind_img.source = graphics.wind_pict()
-        day.day.text = (now + timedelta(days.index(day))).strftime("%d.%m %A")
+        print((now + timedelta(days.index(day))).weekday())
+        week_day = dict[str((now + timedelta(days.index(day))).weekday())][settings.ind]
+        day.day.text = (now + timedelta(days.index(day))).strftime("%d.%m") + " " + week_day
+        print(week_day)
         if parcing == None or parcing == 'None':
             continue
         day.weather.text = parcing['condition']
@@ -202,7 +204,7 @@ def show_all():
         day.rain_img_d.source = graphics.rain_pict()
         day.temp_img_d.source = graphics.temp_pict()
         day.wind_img_d.source = graphics.wind_pict()
-        day.day.text = (now + timedelta(days.index(day))).strftime("%d.%m %A")
+        #day.day.text = (now + timedelta(days.index(day))).strftime("%d.%m %A")
         if parcing == None or parcing == 'None':
             continue
         day.weather_d.text = parcing['condition']
@@ -235,7 +237,7 @@ def renew_time_format():
     renew_time = conf_read('renew_time')
     now = time.time()
     #time.mktime(
-    updated = time.mktime(time.strptime(renew_time[:-1], '%d.%m.%y %A %X'))
+    updated = time.mktime(time.strptime(renew_time[:-1], '%d.%m.%y %H:%M:%S'))
     difference = (now-updated)/3600
 
     if difference <= 0.05:

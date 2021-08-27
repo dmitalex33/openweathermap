@@ -142,7 +142,7 @@ def parcing_forecast(data, n, time):
             parcing (conditions, temp, wind)
             real_feel_temp = int(temp) + settings.factor
             forecast = {'condition': conditions, 'temp': str(temp) +'\nReal Feel ' + str(real_feel_temp),
-                       'wind': str(wind) + " м/с " + str(wind_direction)}
+                       'wind': str(wind) + dict['wind_speed'][settings.ind] + str(wind_direction)}
     return forecast
 
 def parcing (conditions, temp, wind):
